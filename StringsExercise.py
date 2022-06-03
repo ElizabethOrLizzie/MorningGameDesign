@@ -33,3 +33,9 @@ middle6=word6[len(word6)//2]
 last5=word5[len(word5)-1]
 last6=word6[len(word6)-1]
 print(first5+first6+middle5+middle6+last5+last6)
+
+#lower to upper order
+word7=input('your word is ')
+uppercase=''.join([c for c in word7 if c.isupper()])
+lowercase=''.join([c for c in word7 if c.islower()])
+print (lowercase+uppercase)
