@@ -1,6 +1,12 @@
 #Elizabeth Nassi
 #Calculate BMI
-#get user weight and height
+#pseudocode
+#Get height (m)
+#Get weight (kg)
+#Square height
+#Divide weight by height squared
+#Print the answer
+
 import os
 os.system('cls')
 weight=40 #assign this value as a number
