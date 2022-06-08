@@ -54,7 +54,7 @@ while game:
         emoji2="🌼🌷🥀💐"
         y = flowerlist
         x = flowerdict
-        option = "dessert 💐"
+        option = "flower 💐"
     z="That's not even a word. Answer yes or no."
     t="I said answer yes or no."
     play = True
@@ -69,6 +69,7 @@ while game:
             guess = input("Your guess is...? 🤔 ")
             if guess in word:
                 print(emoji1, "CONGRATULATIONS, " , name, "!!! You guessed correctly.", emoji2)
+                guessgo = False
             else:
                 print("Sorry, that's not correct. 🙁")
                 mess = True
@@ -85,17 +86,17 @@ while game:
                             print(t)
                     except:
                         print(z)
-                                                                             mess2 = True
-                                                                            while mess2:
-                                                                                    iplay = input("Want to play the " ,option, " game again? Answer yes or no. ")
-                                                                                    try:
-                                                                                        iplay=str(iplay)
-                                                                                        if iplay == "no" or "yes":
-                                                                                            mess2 = False
-                                                                                            if ans == "no":
-                                                                                                print ("Ok thanks for playing. 👋")
-                                                                                                play = False
-                                                                                        else:
-                                                                                            print(t)
-                                                                                    except:
-                                                                                        print(z)
+        mess2 = True
+        while mess2:
+                iplay = input("Want to play the " ,option, " game again? Answer yes or no. ")
+                try:
+                    iplay=str(iplay)
+                    if iplay == "no" or "yes":
+                        mess2 = False
+                        if ans == "no":
+                            print ("Ok thanks for playing. 👋")
+                            play = False
+                    else:
+                        print(t)
+                except:
+                    print(z)

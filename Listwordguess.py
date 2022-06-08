@@ -28,41 +28,11 @@ while game:
         print('*🐶🐱🐷🐰Guess the animal!!!🐸🐻🦊🐵*')
         print("**Make sure that your answers aren't capitalized!**")
         animallist = ["cat", "dog", "owl", "monkey", "snake", "pig", "bear", "koala", "panda", "fish", "rabbit", "horse", "bird", "turkey", "cow", "lizard"]
+        animaldict = {"cat":"Hint: This animal is often kept as a pet.", "dog":"Hint: This animal is man's best friend.", "owl":"Hint: This animal is a symbol of wisdom.", "monkey":"Hint: This animal likes bananas.", "snake":"Hint: This animal has no legs.", "pig":"Hint: This animal is often pink.", "bear":"Hint: Winnie the Pooh.", "koala":"Hint: This animal lives in Australia.", "panda":"Hint: This animal is black and white.", "fish":"Hint: This animal lives in water.", "rabbit":"Hint: This animal often features in cliche magic shows.", "horse":"Hint: This animal can be used for transportation.", "bird":"Hint: This animal is four letters.", "turkey":"Hint: Benjamin Franklin wanted this animal to be the country's national bird.", "cow":"Hint: This animal is used for milk.", "lizard":"Hint: This animal is a reptile."}
         animal = random.choice(animallist)
         animalplay = True
         while animalplay:
-            if animal == "cat":
-                print("Hint: This animal is often kept as a pet.")
-            if animal == "dog":
-                print("Hint: This animal is man's best friend.")
-            if animal == "owl":
-                print(":Hint: This animal is a symbol of wisdom.")
-            if animal == "monkey":
-                print("Hint: This animal likes bananas.")
-            if animal == "snake":
-                print("Hint: This animal has no legs.")
-            if animal == "pig":
-                print("Hint: This animal is often pink.")
-            if animal == "bear":
-                print("Hint: Winnie the Pooh.")
-            if animal == "koala":
-                print("Hint: This animal lives in Australia.")
-            if animal == "panda":
-                print("Hint: This animal is black and white.")
-            if animal == "fish":
-                print("Hint: This animal lives in water.")
-            if animal == "rabbit":
-                print("Hint: This animal often features in cliche magic shows.")
-            if animal == "horse":
-                print("Hint: This animal can be used for transportation.")
-            if animal == "bird":
-                print("Hint: This animal is four letters.")
-            if animal ==  "turkey":
-                print("Hint: Benjamin Franklin wanted this animal to be the country's national bird.")
-            if animal == "cow":
-                print("Hint: This animal is used for milk.")
-            if animal == "lizard":
-                print("Hint: This animal is a reptile.")
+            print(animaldict[animal])
             guess = input("Your guess is...? 🤔 ")
             if guess in animal:
                 print("🐶🐱🐷🐰 CONGRATULATIONS, " , name, "!!! You guessed correctly. 😀 🐸🐻🦊🐵")
@@ -95,31 +65,11 @@ while game:
         print('*🍧🍦🥧🍨Guess the dessert!!!🍫🍰🧁🍪*')
         print("**Make sure that your answers aren't capitalized!**")
         dessertlist = ["icecream", "cake", "pie", "candy", "chocolate", "pudding", "cheesecake", "brownie", "cobbler", "cupcake", "tiramisu"]
+        dessertdict = {"icecream":"Hint: This dessert is carried by some trucks.", "cake":"Hint: This dessert is often used to celebrate birthdays.", "pie":"Hint: 3.14.", "candy":"Hint: Don't take this dessert from strangers.", "chocolate":"Hint: This dessert is made using beans.", "pudding":"Hint: This dessert has seven letters.", "cheesecake":"Hint: This dessert has two words in it.", "brownie":"Hint: This dessert has it's color in it's name.", "cobbler":"Hint: This dessert starts with the letter c.", "cupcake":"Hint: This dessert is a smaller version of another dessert.", "tiramisu":"Hint: This dessert is coffee flavored."}
         dessert = random.choice(dessertlist)
         dessertplay = True
         while dessertplay:
-            if dessert == "icecream":
-                print("Hint: This dessert is carried by some trucks.")
-            if dessert == "cake":
-                print("Hint: This dessert is often used to celebrate birthdays.")
-            if dessert == "pie":
-                print("Hint: 3.14.")
-            if dessert == "candy":
-                print("Hint: Don't take this dessert from strangers.")
-            if dessert == "chocolate":
-                print("Hint: This dessert is made using beans.")
-            if dessert == "pudding":
-                print("Hint: This dessert has seven letters.")
-            if dessert == "cheesecake":
-                print("Hint: This dessert has two words in it.")
-            if dessert == "brownie":
-                print("Hint: This dessert has it's color in it's name.")
-            if dessert == "cobbler":
-                print("Hint: This dessert starts with the letter c.")
-            if dessert == "cupcake":
-                print("Hint: This dessert is a smaller version of another dessert.")
-            if dessert == "tiramisu":
-                print("Hint: This dessert is coffee flavored.")
+            print(dessertdict[dessert])
             guess = input("Your guess is...? 🤔 ")
             if guess in dessert:
                 print("🍧🍦🥧🍨 CONGRATULATIONS, " , name, "!!! You guessed correctly. 😀 🍫🍰🧁🍪")
@@ -153,37 +103,11 @@ while game:
         print('*🌸🌹🌺🌻Guess the flower!!!🌼🌷🥀💐*')
         print("**Make sure that your answers aren't capitalized!**")
         flowerlist = ["tulip", "lilac", "sunflower", "daisy", "hibiscus", "rose", "hydrangea", "lily", "iris", "hyacinth", "daffodil", "lavendar", "poppy", "peony"]
+        flowerdict = {"tulip":"Hint: Netherlands is the greatest exporter of this flower.", "lilac":"Hint: This flower is in the same family of the olive tree.", "sunflower":"Hint: This flower has the name of a star in it's name.", "daisy":"Hint: This flower symbolizes innocence.", "hibiscus":"Hint: This flower thrives in warm temperatures.", "rose":"Hint: This flower is the U.S. national flower.", "hydrangea":"Hint: This flower is poisonous.", "lily":"Hint: This flower is poisonous for cats.", "iris":"Hint: This flower is also the name of the Greek goddess of rainbows and messages.", "hyacinth":"Hint: In Greek mythology, Apollo turned his lover into this flower.", "daffodil":"Hint: This flower is also known as narcissus.", "lavendar":"Hint: This flower's scent is often used for relaxation.", "poppy":"Hint: This flower is also the name of a type of seed placed on bagels.", "peony":"Hint: this flower symbolizes good fortune and happy marriage."}
         flower = random.choice(flowerlist)
         flowerplay = True
         while flowerplay:
-            if flower == "tulip":
-                print("Hint: Netherlands is the greatest exporter of this flower.")
-            if flower == "lilac":
-                print("Hint: This flower is in the same family of the olive tree.")
-            if flower == "sunflower":
-                print("Hint: This flower has the name of a star in it's name.")
-            if flower == "daisy":
-                print("Hint: This flower symbolizes innocence.")
-            if flower == "hibiscus":
-                print("Hint: This flower thrives in warm temperatures.")
-            if flower == "rose":
-                print("Hint: This flower is the U.S. national flower.")
-            if flower == "hydrangea":
-                print("Hint: This flower is poisonous.")
-            if flower == "lily":
-                print("Hint: This flower is poisonous for cats.")
-            if flower == "iris":
-                print("Hint: This flower is also the name of the Greek goddess of rainbows and messages.")
-            if flower == "hyacinth":
-                print("Hint: In Greek mythology, Apollo turned his lover into this flower.")
-            if flower == "daffodil":
-                print("Hint: This flower is also known as narcissus.")
-            if flower == "lavendar":
-                print("Hint: This flower's scent is often used for relaxation.")
-            if flower == "poppy":
-                print("Hint: This flower is also the name of a type of seed placed on bagels.")
-            if flower == "peony":
-                print("This flower symbolizes good fortune and happy marriage.")
+            print(flowerdict[flower])
             guess = input("Your guess is...? 🤔 ")
             if guess in flower:
                 print("🌼🌷🥀💐 CONGRATULATIONS, " , name, "!!! You guessed correctly. 😀 🌸🌹🌺🌻")
