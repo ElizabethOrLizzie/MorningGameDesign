@@ -4,7 +4,7 @@
 #Make list of different flowers, Choose random flower off of list, Print instructions of game, Have user guess flower, If guess is correct, print congratulations, If guess is incorrect, print that they guessed incorrectly, Ask if still want to guess, If yes, loop, If no, give answer, Ask user if want to keep playing, If yes, Choose new random flower, loop, If no, Say bye, end
 #make three different list game options, not just flower
 import random
-import os
+import os, datetime
 #from traceback import print_stack
 os.system("cls")
 name= input("Hello! What is your name? ")
@@ -24,6 +24,7 @@ while game:
         except:
             print("Sorry, that's not even a number. Please type a 1, 2, or 3.")
     if choice == 1:
+        cnt = 0
         os.system("cls")
         print('*🐶🐱🐷🐰Guess the animal!!!🐸🐻🦊🐵*')
         print("**Make sure that your answers aren't capitalized!**")
@@ -34,8 +35,19 @@ while game:
         while animalplay:
             print(animaldict[animal])
             guess = input("Your guess is...? 🤔 ")
+            cnt+=1
             if guess in animal:
+                score = 50 - cnt
                 print("🐶🐱🐷🐰 CONGRATULATIONS, " , name, "!!! You guessed correctly. 😀 🐸🐻🦊🐵")
+                print("Your score is",score)
+                high = 0
+                if score>high:
+                    high = score
+                date=datetime.datetime.now()
+                scrLine=str(high)+"\t "+name + "\t"+date.strftime("%m-%d-%Y")+ "\n"
+                myFile = open("scre1.txt", 'w')
+                myFile.write(scrLine)
+                myFile.close()
                 aplay = input("Want to play the animal game again? 🐾 Answer yes or no. ")
                 if aplay == "no":
                     print("ok bye 👋")
@@ -61,6 +73,7 @@ while game:
                     if aplay == "yes":
                         animal = random.choice(animallist)
     if choice == 2:
+        cnt = 0
         os.system("cls")
         print('*🍧🍦🥧🍨Guess the dessert!!!🍫🍰🧁🍪*')
         print("**Make sure that your answers aren't capitalized!**")
@@ -71,8 +84,19 @@ while game:
         while dessertplay:
             print(dessertdict[dessert])
             guess = input("Your guess is...? 🤔 ")
+            cnt+=1
             if guess in dessert:
+                score = 50 - cnt
                 print("🍧🍦🥧🍨 CONGRATULATIONS, " , name, "!!! You guessed correctly. 😀 🍫🍰🧁🍪")
+                print("Your score is",score)
+                high = 0
+                if score>high:
+                    high = score
+                date=datetime.datetime.now()
+                scrLine=str(high)+"\t "+name + "\t"+date.strftime("%m-%d-%Y")+ "\n"
+                myFile = open("scre1.txt", 'w')
+                myFile.write(scrLine)
+                myFile.close()
                 dplay = input("Want to play the dessert game again? 🧁 Answer yes or no. ")
                 if dplay == "no":
                     print("ok bye 👋")
@@ -99,6 +123,7 @@ while game:
                     if dplay == "yes":
                         dessert = random.choice(dessertlist)
     if choice == 3:
+        cnt = 0
         os.system("cls")
         print('*🌸🌹🌺🌻Guess the flower!!!🌼🌷🥀💐*')
         print("**Make sure that your answers aren't capitalized!**")
@@ -109,8 +134,19 @@ while game:
         while flowerplay:
             print(flowerdict[flower])
             guess = input("Your guess is...? 🤔 ")
+            cnt+=1
             if guess in flower:
+                score = 50 - cnt
                 print("🌼🌷🥀💐 CONGRATULATIONS, " , name, "!!! You guessed correctly. 😀 🌸🌹🌺🌻")
+                print("Your score is",score)
+                high = 0
+                if score>high:
+                    high = score
+                date=datetime.datetime.now()
+                scrLine=str(high)+"\t "+name + "\t"+date.strftime("%m-%d-%Y")+ "\n"
+                myFile = open("scre1.txt", 'w')
+                myFile.write(scrLine)
+                myFile.close()
                 play = input("Want to play the flower game again? 💐 Answer yes or no. ")
                 if play == "no":
                     print("ok bye 👋")
