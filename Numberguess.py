@@ -3,6 +3,7 @@
 import random
 import os, datetime
 os.system("cls")
+myFile = open("scre.txt", 'w')
 name = input("Hello there! What is your name? ")
 print("Nice to meet you," ,name,".")
 input("Press enter to go to the main menu. ")
@@ -95,6 +96,6 @@ while game:
         scrLine3=str(three)+"\t "+name + "\t"+date.strftime("%m-%d-%Y")+ "\n"       
         scrLine4=str(four)+"\t "+name + "\t"+date.strftime("%m-%d-%Y")+ "\n"
         scrLine5=str(five)+"\t "+name + "\t"+date.strftime("%m-%d-%Y")+ "\n"
-        myFile = open("scre.txt", 'w')
+        myFile = open("scre.txt", 'a')
         myFile.write(scrLine+scrLine2+scrLine3+scrLine4+scrLine5)
         myFile.close()
