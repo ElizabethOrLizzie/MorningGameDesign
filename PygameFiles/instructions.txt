@@ -1,0 +1,2 @@
+Use arrows to move the squares.
+Use aswd to move the circle. 
