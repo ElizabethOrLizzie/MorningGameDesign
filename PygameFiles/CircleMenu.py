@@ -1,5 +1,5 @@
-# #Maria Suarez
-# #6/9/2022
+# Elizabeth Nassi
+# #6/14/22
 # #We are learning pygame basic functins, 
 # # creating screens, clrs, shape ,move 
 # # move  the square
