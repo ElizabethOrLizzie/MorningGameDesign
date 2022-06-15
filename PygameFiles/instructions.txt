@@ -1,2 +1,4 @@
-Use arrows to move the squares.
-Use aswd to move the circle. 
+Game one allows you to move the character.
+Game two allows you to move the circle.
+Use arrows to move the circle.
+Use aswd to move the character. 
