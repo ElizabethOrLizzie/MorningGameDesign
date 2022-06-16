@@ -42,6 +42,8 @@ circolor=colors.get("limeGreen")
 xcolor=colors.get("pink")
 bgcolor = colors.get("turquoise")
 linecolor = colors.get("blue")
+O_score = 0
+X_score=0
 
 def zero_grid():
     for x in range(3):
@@ -74,9 +76,13 @@ def draw_markers():
         xvalue+=1
     pygame.display.update()
 def agn():
-    global Game
+    global Game, X_score, O_score
     Game = False
     screen.fill(bgcolor)
+    strx = str(X_score)
+    stro = str(O_score)
+    textxscore=U_FONT.render("X's score is "+strx, 1, (linecolor))
+    textoscore=U_FONT.render("O's score is "+stro, 1, (linecolor))
     textagn=U_FONT.render('Want to play again?', 1, (linecolor))
     Buttony=pygame.Rect(WIDTH//4, HEIGHT//2, 100, 50)
     Button_n=pygame.Rect(3*WIDTH//4, HEIGHT//2, 100, 50)
@@ -88,6 +94,8 @@ def agn():
     pygame.draw.rect(screen, colors.get('white'), Button_n)
     screen.blit(textyes, (WIDTH//4, HEIGHT//2))
     screen.blit(textno, (3*WIDTH//4, HEIGHT//2))
+    screen.blit(textxscore, (WIDTH//2, 4*HEIGHT//6))
+    screen.blit(textoscore, (WIDTH//2, 5*HEIGHT//6))
     pygame.display.update()
     pygame.time.delay(10000)
     for event in pygame.event.get():
@@ -96,11 +104,14 @@ def agn():
             mx=mousePos[0]
             my=mousePos[1]
             if Buttony.collidepoint((mx, my)):
+                pygame.event.get()
                 cnt==0
+                screen.fill(bgcolor)
+                pygame.display.update()
                 zero_grid()
                 Game = True
-                pygame.display.update()
             if Button_n.collidepoint((mx, my)):
+                pygame.event.get()
                 screen.fill(bgcolor)
                 textbye=U_FONT.render('Bye!', 1, (linecolor))
                 screen.blit(textbye, (xd, HEIGHT//2))
@@ -139,6 +150,8 @@ def diag_2():
     pygame.display.update()
     pygame.time.delay(1000)
 def x_win():
+    global X_score
+    X_score += 1
     screen.fill(xcolor)
     textx=U_FONT.render('X won!', 1, (linecolor))
     screen.blit(textx, (WIDTH//2, HEIGHT//2))
@@ -146,6 +159,8 @@ def x_win():
     pygame.time.delay(3000)
     agn()
 def O_win():
+    global O_score
+    O_score += 1
     screen.fill(circolor)
     texto=U_FONT.render('O won!', 1, (linecolor))
     screen.blit(texto, (WIDTH//2, HEIGHT//2))
