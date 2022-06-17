@@ -76,7 +76,7 @@ def draw_markers():
         xvalue+=1
     pygame.display.update()
 def agn():
-    global Game, X_score, O_score
+    global Game, X_score, O_score, markers, cnt
     Game = False
     screen.fill(bgcolor)
     strx = str(X_score)
@@ -105,16 +105,17 @@ def agn():
             my=mousePos[1]
             if Buttony.collidepoint((mx, my)):
                 pygame.event.get()
-                cnt==0
+                cnt=0
                 screen.fill(bgcolor)
                 pygame.display.update()
+                markers=[]
                 zero_grid()
                 Game = True
             if Button_n.collidepoint((mx, my)):
                 pygame.event.get()
                 screen.fill(bgcolor)
                 textbye=U_FONT.render('Bye!', 1, (linecolor))
-                screen.blit(textbye, (xd, HEIGHT//2))
+                screen.blit(textbye, (WIDTH//2, HEIGHT//2))
                 pygame.display.update()
                 pygame.time.delay(2000)
 def vert_0():
