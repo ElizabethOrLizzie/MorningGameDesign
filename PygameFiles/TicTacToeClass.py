@@ -10,7 +10,7 @@ import os, random, time, pygame, math, datetime,sys
 os.system('cls')
 
 pygame.init()
-
+clock = pygame.time.Clock
 TITLE_FONT = pygame.font.SysFont('comicsans', 40)
 MENU_FONT = pygame.font.SysFont('comicsans', 20)
 scoreo = 0
@@ -748,7 +748,7 @@ def gameEnd():
                     screen.blit(win, (dw, HEIGHT//4))
                     screen.blit(textbye, (WIDTH//2, HEIGHT//2))
                     pygame.display.update()
-                    pygame.time.delay(3500)
+                    clock.tick(60)
                     pygame.quit()
                     sys.exit()
                 if Buttony.collidepoint((mx, my)):
@@ -786,4 +786,3 @@ def Gamef():
                         gameEnd()
                         gameOver = False
 Gamef()
-

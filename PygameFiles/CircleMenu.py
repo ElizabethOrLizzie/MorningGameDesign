@@ -11,8 +11,6 @@
 # #picture = pygame. transform. scale(picture, (1280, 720))
 # #bg=pygame.image.load('ClassStuff\CircleEatsSquare\Images\\bgSmaller.jpg')
 
-
-from subprocess import HIGH_PRIORITY_CLASS
 import sys
 import pygame, time,os,random, math, datetime
 date=datetime.datetime.now()
@@ -24,6 +22,7 @@ TITLE_FONT = pygame.font.SysFont('comicsans', 40)
 MENU_FONT = pygame.font.SysFont('comicsans', 20)
 
 os.system('cls')
+clock = pygame.time.Clock
 WIDTH=700 #like constant
 w = WIDTH
 HEIGHT=700
