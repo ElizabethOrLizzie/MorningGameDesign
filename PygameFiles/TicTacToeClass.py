@@ -650,7 +650,7 @@ def draw_Markers():
                 pygame.draw.circle(screen,cirClr,(xValue*WIDTH//3+WIDTH//6,yValue*HEIGHT//3 +HEIGHT//6),WIDTH//6-15, lineWidth)
             yValue +=1
         xValue +=1
-    pygame.display.update() 
+    pygame.display.update()
 def checkWinner():
     global gameOver,winner
     x_pOs=0
@@ -694,7 +694,7 @@ def checkWinner():
 
     
 def gameEnd():
-    global Game, scoreo, scorex, markers
+    global Game, scoreo, scorex, markers, gameOver
     Game = False
     if winner == 1:
         scorex+=1
@@ -724,30 +724,42 @@ def gameEnd():
     screen.blit(textyes, (yw, 4*HEIGHT//6))
     screen.blit(textagn, (aw, 3*HEIGHT//6))
     pygame.display.update()
-    pygame.time.delay(5000)
-    for event in pygame.event.get():
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            mousePos=pygame.mouse.get_pos()
-            mx=mousePos[0]
-            my=mousePos[1]
-            if Button_n.collidepoint((mx, my)):
-                pygame.event.get()
-                screen.fill(backgrnd)
-                textbye=MENU_FONT.render('Bye!', 1, (txtcolor))
-                screen.blit(textbye, (WIDTH//2, HEIGHT//2))
-                pygame.display.update()
-                pygame.time.delay(2000)
-            if Buttony.collidepoint((mx, my)):
-                markers.clear()
-                markers=[]
-                zero_Array()
-                pygame.display.update()
-                Game = True
-                Gamef()
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                print("Bye")
+                #add menu if normal game
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                mousePos=pygame.mouse.get_pos()
+                mx=mousePos[0]
+                my=mousePos[1]
+                if Button_n.collidepoint((mx, my)):
+                    pygame.event.get()
+                    screen.fill(backgrnd)
+                    if scorex>scoreo:
+                        win = MENU_FONT.render("X won with an overall score of "+scrx, 1, (txtcolor))
+                    if scoreo>scorex:
+                        win = MENU_FONT.render("O won with an overall score of "+scro, 1, (txtcolor))
+                    if scoreo == scorex:
+                        win = MENU_FONT.render("It was a tie, each person with an overall score of "+scro, 1, (txtcolor))
+                    dw = WIDTH//2 - (win.get_width()//2)
+                    textbye=MENU_FONT.render('Bye!', 1, (txtcolor))
+                    screen.blit(win, (dw, HEIGHT//4))
+                    screen.blit(textbye, (WIDTH//2, HEIGHT//2))
+                    pygame.display.update()
+                    pygame.time.delay(3500)
+                    pygame.quit()
+                    sys.exit()
+                if Buttony.collidepoint((mx, my)):
+                    markers.clear()
+                    zero_Array()
+                    gameOver = False
+                    Gamef()
 
 zero_Array()
 def Gamef():
-    global Game, player, markers, cellx, celly, MxMy
+    global Game, player, markers, cellx, celly, MxMy, gameOver
     Game = True
     while Game:
         screen.fill(backgrnd)
@@ -769,6 +781,9 @@ def Gamef():
                     checkWinner()
                     print(winner)
                     if gameOver:
+                        draw_Markers()
+                        pygame.time.delay(100)
                         gameEnd()
+                        gameOver = False
 Gamef()
 
