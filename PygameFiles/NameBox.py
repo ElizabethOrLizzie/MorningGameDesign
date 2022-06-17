@@ -1,4 +1,4 @@
-#shreya chhaya
+#Elizabeth Nassi
 #6/17/22
 #learn how to get user's name in pygame
 import pygame, os, sys
@@ -54,4 +54,3 @@ while run:
 
         pygame.display.flip()
         clock.tick(60)
-        
