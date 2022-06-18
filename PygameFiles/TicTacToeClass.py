@@ -748,7 +748,7 @@ def gameEnd():
                     screen.blit(win, (dw, HEIGHT//4))
                     screen.blit(textbye, (WIDTH//2, HEIGHT//2))
                     pygame.display.update()
-                    clock.tick(60)
+                    pygame.time.delay(3000)
                     pygame.quit()
                     sys.exit()
                 if Buttony.collidepoint((mx, my)):
