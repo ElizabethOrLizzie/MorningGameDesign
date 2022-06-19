@@ -36,7 +36,12 @@ char = pygame.transform.scale(char, (WIDTH//14, HEIGHT//14))
 # screen.blit(bg, (0,0))
 # pygame.display.update()
 # pygame.time.delay(5000)
-
+#variables for scoreboard starting out
+high = 0
+two = 0
+three = 0
+four = 0
+five = 0
 
 #square Var
 hb=HEIGHT//14
@@ -61,7 +66,9 @@ mx = 0
 my = 0
 
 score = 0
-name = "Maria" #in settings add option change name
+
+name = ''
+#in settings add option change name
 
 square=pygame.Rect(xb,yb,wb,hb)# create the object to draw
 insSquare=pygame.Rect(xig,yig,ibox,ibox)
@@ -167,7 +174,7 @@ def Instructions():
 
 
 def settings():
-    global txtcolor, bgcolor, screen, WIDTH, HEIGHT, colors
+    global txtcolor, bgcolor, screen, WIDTH, HEIGHT, colors, name
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(0,100,50),"yellow":(255,255,50),"purple":(229,204,255),"randt":(random.randint(0,255), random.randint(0,255), random.randint(0,255)),"randb":(random.randint(0,255), random.randint(0,255), random.randint(0,255))}
@@ -177,6 +184,7 @@ def settings():
     text4=MENU_FONT.render('Random Clr', 1, colors.get("randt"))
     text5=MENU_FONT.render('Smaller Screen', 1, colors.get(txtcolor))
     text6=MENU_FONT.render('Bigger Screen', 1, colors.get(txtcolor))
+    text7=MENU_FONT.render('Enter Name: ', 1, colors.get(txtcolor))
 
     screen.fill(colors.get(bgcolor))
 
@@ -185,18 +193,22 @@ def settings():
     Button_5 = pygame.Rect(3*WIDTH//4-WIDTH//12, HEIGHT//4, WIDTH//6, HEIGHT//14)
     Button_6 = pygame.Rect(WIDTH//3-WIDTH//8, 2*HEIGHT//4, WIDTH//4, HEIGHT//14)
     Button_7 = pygame.Rect(2*WIDTH//3-WIDTH//8, 2*HEIGHT//4, WIDTH//4, HEIGHT//14)
+    Button_8 = pygame.Rect(WIDTH//4-WIDTH//12, 3*HEIGHT//4, 3*WIDTH//4, HEIGHT//14)
+    Button_9 = pygame.Rect(WIDTH//4+WIDTH//12, 3*HEIGHT//4, 3*WIDTH//4, HEIGHT//14)
 
     pygame.draw.rect(screen, colors.get("limeGreen"), Button_3)
     pygame.draw.rect(screen, colors.get("white"), Button_4)
     pygame.draw.rect(screen, colors.get("randb"), Button_5)
     pygame.draw.rect(screen, colors.get("purple"), Button_6)
     pygame.draw.rect(screen, colors.get("purple"), Button_7)
+    pygame.draw.rect(screen, colors.get("purple"), Button_8)
     screen.blit(title, (WIDTH//2-8*WIDTH//18,50))
     screen.blit(text, (WIDTH//4-WIDTH//12, HEIGHT//4))
     screen.blit(text3, (2*WIDTH//4-WIDTH//12, HEIGHT//4))
     screen.blit(text4, (3*WIDTH//4-WIDTH//12, HEIGHT//4))
     screen.blit(text5, (WIDTH//3-WIDTH//8, 2*HEIGHT//4))
     screen.blit(text6, (2*WIDTH//3-WIDTH//8, 2*HEIGHT//4))
+    screen.blit(text7, (WIDTH//4-WIDTH//12, 3*HEIGHT//4))
 
     pygame.display.update()
     setting = True
@@ -214,25 +226,50 @@ def settings():
                     txtcolor = "yellow"
                     bgcolor = "limeGreen"
                     pygame.display.update()
+                    mainMenu()
                 if Button_4.collidepoint((mx, my)):
                     txtcolor = "pink"
                     bgcolor = "white"
                     pygame.display.update()
+                    mainMenu()
                 if Button_5.collidepoint((mx, my)):
                     txtcolor = "randt"
                     bgcolor = "randb"
                     pygame.display.update()
+                    mainMenu()
                 if Button_6.collidepoint((mx, my)):
-                    WIDTH-=100
-                    HEIGHT-=100
-                    screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
-                    pygame.display.update()
+                    if WIDTH!=300:
+                        WIDTH-=100
+                        HEIGHT-=100
+                        screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
+                        pygame.display.update()
+                        mainMenu()
                 if Button_7.collidepoint((mx, my)):
                     WIDTH+=100
                     HEIGHT+=100
                     screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
                     pygame.display.update()
-                mainMenu()
+                    mainMenu()
+                if Button_9.collidepoint((mx,my)): #does not work, need to fix
+                    pygame.draw.rect(screen, colors.get("blue"), Button_9)
+                    pygame.display.update()
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            print(name)
+                            #run main menu - if in main program
+                            pygame.quit()
+                            sys.exit()
+                        if event.key ==pygame.K_BACKSPACE:
+                            name=name[:-1]
+                            print('back')
+                        else:
+                            name += event.unicode
+                    pygame.draw.rect(screen, colors.get("purple"), Button_9)
+                    textSurface=MENU_FONT.render(name, True, txtcolor)
+                    #use rect x and y to  allign the text 
+                    screen.blit(textSurface, (Button_9.x+5, Button_9.y+5))
+                    pygame.display.flip()
+                    #clock.tick(60)
 
 
 def exit():
@@ -424,7 +461,6 @@ def GameThree():
     # checkWinner() 
     # Game_end()
 
-    TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     clock = pygame.time.Clock
     scoreo = 0
@@ -1059,7 +1095,7 @@ def GameThree():
             xValue +=1
         pygame.display.update()
     def checkWinner():
-        global gameOver,winner
+        nonlocal gameOver,winner#nonlocal instead of global
         x_pOs=0
         for x in markers:
             #check COL
@@ -1098,7 +1134,7 @@ def GameThree():
                 gameOver=True
                 winner=0
     def gameEnd():
-        global Game, scoreo, scorex, markers, gameOver
+        nonlocal Game, scoreo, scorex, markers, gameOver, clock
         Game = False
         if winner == 1:
             scorex+=1
@@ -1133,6 +1169,7 @@ def GameThree():
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     print("Bye")
+                    mainMenu()
                     #add menu if normal game
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     mousePos=pygame.mouse.get_pos()
@@ -1140,6 +1177,7 @@ def GameThree():
                     my=mousePos[1]
                     if Button_n.collidepoint((mx, my)):
                         pygame.event.get()
+                        run = False
                         screen.fill(backgrnd)
                         if scorex>scoreo:
                             win = MENU_FONT.render("X won with an overall score of "+scrx, 1, (txtcolor))
@@ -1152,9 +1190,10 @@ def GameThree():
                         screen.blit(win, (dw, HEIGHT//4))
                         screen.blit(textbye, (WIDTH//2, HEIGHT//2))
                         pygame.display.update()
-                        clock.tick(60)
-                        pygame.quit()
-                        sys.exit()
+                        pygame.time.delay(3000)
+                        mainMenu()
+
+
                     if Buttony.collidepoint((mx, my)):
                         markers.clear()
                         zero_Array()
@@ -1162,7 +1201,7 @@ def GameThree():
                         Gamef()
     zero_Array()
     def Gamef():
-        global Game, player, markers, cellx, celly, MxMy, gameOver
+        nonlocal Game, player, markers, MxMy, gameOver# cellx, celly,#nonlocal instead of global bc in outer function?
         Game = True
         while Game:
             screen.fill(backgrnd)
@@ -1171,8 +1210,7 @@ def GameThree():
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     #Menu(mainTitle,messageMenu)
-                    pygame.quit()
-                    sys.exit()
+                    mainMenu()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     MxMy = pygame.mouse.get_pos()
                     cellx=MxMy[0]//(WIDTH//3)
@@ -1185,56 +1223,55 @@ def GameThree():
                         print(winner)
                         if gameOver:
                             draw_Markers()
-                            pygame.time.delay(100)
+                            pygame.time.delay(60)
                             gameEnd()
                             gameOver = False
     Gamef()
 def scoreboard():
-    global score, name, txtcolor, bgcolor
+    global score, name, txtcolor, bgcolor, high, two, three, four, five
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
-    high=0
-    two=0
-    three=0
-    four=0
-    five=0
     title=TITLE_FONT.render('Scoreboard', 1, colors.get(txtcolor))
     screen.fill(colors.get(bgcolor))
-    screen.blit(title, (250,50))
+    screen.blit(title, (WIDTH//3,50))
     print(score)
-    high = 0
     if score>high:
+        five = four
+        four = three
+        three = two
+        two = high
         high = score
-    two = 0
     if score>two and score<high:
+        five = four
+        four = three
+        three = two
         two = score
-    three = 0
     if score>three and score<two:
+        five = four
+        four = three
         three = score
-    four = 0
     if score>four and score<three:
+        five = four
         four = score
-    five = 0
     if score>five and score<four:
         five = score
     date=datetime.datetime.now()
-    scrLine=str(high)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
-    scrLine2=str(two)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
-    scrLine3=str(three)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"       
-    scrLine4=str(four)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
-    scrLine5=str(five)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
+    scrLine="1. "+str(high)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
+    scrLine2="2. "+str(two)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
+    scrLine3="3. "+str(three)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"       
+    scrLine4="4. "+str(four)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
+    scrLine5="5. "+str(five)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     myFile = open("MorningGameDesign\PygameFiles\scoreboardd.txt", 'a')
     myFile.write(scrLine+scrLine2+scrLine3+scrLine4+scrLine5)
     myFile.close()
     File = open("MorningGameDesign\PygameFiles\scoreboardd.txt", "r")
     yscores=150
     content = File.readlines()
-    for line in content:
+    for line in content[-5:]:
         scr = MENU_FONT.render(line[0:-1], 1, colors.get(txtcolor))
         screen.blit(scr, (WIDTH//18, yscores))
         pygame.display.update()
-        pygame.time.delay(50)
-        yscores += WIDTH//18
+        yscores += HEIGHT//18
     File.close()
     scoreboard=True
     while scoreboard:
