@@ -13,7 +13,7 @@
 
 import pygame, time, os,random, math, datetime, sys
 
-date=datetime.datetime.now()
+
 pygame.init()#initialize the pygame package
 os.system('cls')
 clock = pygame.time.Clock
@@ -29,47 +29,46 @@ message=['Instructions', 'Settings', 'Game 1', 'Game 2', 'Game 3', 'Scoreboard',
 screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
 pygame.display.set_caption("Menu")  #change the title of my window
 #boxes for menu
-#images
+#images for game
 bg=pygame.image.load('MorningGameDesign\PygameFiles\Images\Backgroundimagepurplerock.jpg')
 char = pygame.image.load('MorningGameDesign\PygameFiles\Images\PixelArtTutorialCharacter.png')
 char = pygame.transform.scale(char, (WIDTH//14, HEIGHT//14))
 # screen.blit(bg, (0,0))
 # pygame.display.update()
 # pygame.time.delay(5000)
-#variables for scoreboard starting out
+
+#SCOREBOARD VARIABLES
+date=datetime.datetime.now()
 high = 0
 two = 0
 three = 0
 four = 0
 five = 0
+scrLine="1. 0    nobody   "+date.strftime("%m-%d-%Y")+ "\n"
+scrLine2="2. 0    nobody    "+date.strftime("%m-%d-%Y")+ "\n"
+scrLine3="3. 0    nobody    "+date.strftime("%m-%d-%Y")+ "\n"       
+scrLine4="4. 0    nobody    "+date.strftime("%m-%d-%Y")+ "\n"
+scrLine5="5. 0    nobody    "+date.strftime("%m-%d-%Y")+ "\n"
 
-#square Var
+#scoreboard and game variable
+score = 0
+
+#GAME VARIABLES
+#square variables game
 hb=HEIGHT//14
 wb=WIDTH//14
 xb=WIDTH//7
 rad=25
 yb=HEIGHT//2
-
+#char game
 charx = xb
 chary = yb
-txtcolor="yellow"
-bgcolor="limeGreen"
 cx=WIDTH//2
 cy=HEIGHT//2
 speed=2
 ibox = rad*math.sqrt(2)
 xig = cx-(ibox/2)
 yig = cy-(ibox/2)
-
-#mouse variables
-mx = 0
-my = 0
-
-score = 0
-
-name = ''
-#in settings add option change name
-
 square=pygame.Rect(xb,yb,wb,hb)# create the object to draw
 insSquare=pygame.Rect(xig,yig,ibox,ibox)
 squareClr=colors.get("pink")
@@ -77,6 +76,18 @@ squareClr=colors.get("pink")
 mountainSquare=pygame.Rect(250,320,180,250)
 circleClr=colors.get("blue")
 backgrnd=colors.get("limeGreen")
+
+#SETTINGS VARIABLES
+txtcolor="yellow"
+bgcolor="limeGreen"
+
+#mouse variables(used a lot, mainly for buttons in menu and settings and exiting)
+mx = 0
+my = 0
+#settings/score variable?
+name = ''
+#in settings add option change name
+
 run = True
 Game = False
 
@@ -185,6 +196,7 @@ def settings():
     text5=MENU_FONT.render('Smaller Screen', 1, colors.get(txtcolor))
     text6=MENU_FONT.render('Bigger Screen', 1, colors.get(txtcolor))
     text7=MENU_FONT.render('Enter Name: ', 1, colors.get(txtcolor))
+    text8=MENU_FONT.render(name, 1, colors.get(txtcolor))
 
     screen.fill(colors.get(bgcolor))
 
@@ -193,8 +205,8 @@ def settings():
     Button_5 = pygame.Rect(3*WIDTH//4-WIDTH//12, HEIGHT//4, WIDTH//6, HEIGHT//14)
     Button_6 = pygame.Rect(WIDTH//3-WIDTH//8, 2*HEIGHT//4, WIDTH//4, HEIGHT//14)
     Button_7 = pygame.Rect(2*WIDTH//3-WIDTH//8, 2*HEIGHT//4, WIDTH//4, HEIGHT//14)
-    Button_8 = pygame.Rect(WIDTH//4-WIDTH//12, 3*HEIGHT//4, 3*WIDTH//4, HEIGHT//14)
-    Button_9 = pygame.Rect(WIDTH//4+WIDTH//12, 3*HEIGHT//4, 3*WIDTH//4, HEIGHT//14)
+    Button_8 = pygame.Rect(WIDTH//4-WIDTH//12, 3*HEIGHT//4, 3*WIDTH//4-WIDTH//12, HEIGHT//14)
+    Button_9 = pygame.Rect(WIDTH//4+WIDTH//12, 3*HEIGHT//4, 3*WIDTH//4-3*WIDTH//12, HEIGHT//14)
 
     pygame.draw.rect(screen, colors.get("limeGreen"), Button_3)
     pygame.draw.rect(screen, colors.get("white"), Button_4)
@@ -209,6 +221,7 @@ def settings():
     screen.blit(text5, (WIDTH//3-WIDTH//8, 2*HEIGHT//4))
     screen.blit(text6, (2*WIDTH//3-WIDTH//8, 2*HEIGHT//4))
     screen.blit(text7, (WIDTH//4-WIDTH//12, 3*HEIGHT//4))
+    screen.blit(text8, (Button_9.x+5, Button_9.y+5))
 
     pygame.display.update()
     setting = True
@@ -253,22 +266,44 @@ def settings():
                 if Button_9.collidepoint((mx,my)): #does not work, need to fix
                     pygame.draw.rect(screen, colors.get("blue"), Button_9)
                     pygame.display.update()
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN:
-                            print(name)
-                            #run main menu - if in main program
-                            pygame.quit()
-                            sys.exit()
-                        if event.key ==pygame.K_BACKSPACE:
-                            name=name[:-1]
-                            print('back')
-                        else:
-                            name += event.unicode
-                    pygame.draw.rect(screen, colors.get("purple"), Button_9)
-                    textSurface=MENU_FONT.render(name, True, txtcolor)
+                    run = True
+                    while run:
+                        for event in pygame.event.get():
+                            if event.type==pygame.QUIT:
+                                mainMenu()
+                                #Menu(mainTitle,messageMenu)
+                                # pygame.quit()
+                                # sys.exit()
+                                print("You quit")
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_RETURN:
+                                    print(name)
+                                    #run main menu - if in main program
+                                    pygame.draw.rect(screen, colors.get("purple"), Button_9)
+                                    textSurface=MENU_FONT.render(name, True, colors.get(txtcolor))
+                                    #use rect x and y to  allign the text 
+                                    screen.blit(textSurface, (Button_9.x+5, Button_9.y+5))
+                                    run = False
+                                    mainMenu()
+                                    # pygame.quit()
+                                    # sys.exit()
+                                if event.key ==pygame.K_BACKSPACE:
+                                    name=name[:-1]
+                                    print('back')
+                                else:
+                                    name += event.unicode
+                                    # textname=MENU_FONT.render(name, True, colors.get(txtcolor))
+                                    # screen.blit(textname, (Button_9.x+5, Button_9.y+5))
+                                    # pygame.display.update()
+                            pygame.draw.rect(screen, colors.get("blue"), Button_9)
+                            textSurface=MENU_FONT.render(name, True, colors.get(txtcolor))
+                            #use rect x and y to  allign the text 
                     #use rect x and y to  allign the text 
-                    screen.blit(textSurface, (Button_9.x+5, Button_9.y+5))
-                    pygame.display.flip()
+                            #use rect x and y to  allign the text 
+                    #use rect x and y to  allign the text 
+                            #use rect x and y to  allign the text 
+                            screen.blit(textSurface, (Button_9.x+5, Button_9.y+5))
+                            pygame.display.flip()
                     #clock.tick(60)
 
 
@@ -1228,10 +1263,11 @@ def GameThree():
                             gameOver = False
     Gamef()
 def scoreboard():
-    global score, name, txtcolor, bgcolor, high, two, three, four, five
+    global score, name, txtcolor, bgcolor, high, two, three, four, five, scrLine, scrLine2, scrLine3, scrLine4, scrLine5
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     title=TITLE_FONT.render('Scoreboard', 1, colors.get(txtcolor))
+    date=datetime.datetime.now()
     screen.fill(colors.get(bgcolor))
     screen.blit(title, (WIDTH//3,50))
     print(score)
@@ -1241,26 +1277,26 @@ def scoreboard():
         three = two
         two = high
         high = score
+        scrLine="1. "+str(high)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     if score>two and score<high:
         five = four
         four = three
         three = two
         two = score
+        scrLine2="2. "+str(two)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     if score>three and score<two:
         five = four
         four = three
         three = score
+        scrLine3="3. "+str(three)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     if score>four and score<three:
         five = four
         four = score
+        scrLine4="4. "+str(four)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     if score>five and score<four:
         five = score
+        scrLine5="5. "+str(five)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     date=datetime.datetime.now()
-    scrLine="1. "+str(high)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
-    scrLine2="2. "+str(two)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
-    scrLine3="3. "+str(three)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"       
-    scrLine4="4. "+str(four)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
-    scrLine5="5. "+str(five)+"    "+name + "   "+date.strftime("%m-%d-%Y")+ "\n"
     myFile = open("MorningGameDesign\PygameFiles\scoreboardd.txt", 'a')
     myFile.write(scrLine+scrLine2+scrLine3+scrLine4+scrLine5)
     myFile.close()
