@@ -1266,7 +1266,7 @@ def scoreboard():
     global score, name, txtcolor, bgcolor, high, two, three, four, five, scrLine, scrLine2, scrLine3, scrLine4, scrLine5
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
-    title=TITLE_FONT.render('Scoreboard', 1, colors.get(txtcolor))
+    title=TITLE_FONT.render('Leaderboard', 1, colors.get(txtcolor))
     date=datetime.datetime.now()
     screen.fill(colors.get(bgcolor))
     screen.blit(title, (WIDTH//3,50))
