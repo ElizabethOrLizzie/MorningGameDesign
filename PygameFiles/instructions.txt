@@ -1,4 +1,6 @@
-Game one allows you to move the character.
-Game two allows you to move the circle.
 Use arrows to move the circle.
 Use aswd to move the character. 
+Game one allows you to move the character.
+Game two allows you to move the circle.
+Game three is tic tac toe.
+Have fun!

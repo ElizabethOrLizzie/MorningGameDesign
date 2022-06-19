@@ -10,7 +10,7 @@ backgrnd=(255,255,255)
 WIDTH=700
 HEIGHT=700
 screen=pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Get Name')
+
 screen.fill(backgrnd)
 run = True 
 userName=''
