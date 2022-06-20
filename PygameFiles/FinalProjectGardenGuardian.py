@@ -11,10 +11,10 @@ pygame.init()#initialize the pygame package
 os.system('cls')
 clock = pygame.time.Clock #try to use clock instead of delays to make it better
 
-WIDTH= #need to find width and height for new background
-HEIGHT=
+WIDTH=800#need to find width and height for new background
+HEIGHT=600
 colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(0,100,50),"yellow":(255,255,0),"purple":(229,204,255),"randt":(random.randint(0,255), random.randint(0,255), random.randint(0,255)),"randb":(random.randint(0,255), random.randint(0,255), random.randint(0,255))}
-message=['Instructions', 'Settings', 'Game 1', 'Game 2', 'Game 3', 'Scoreboard', 'Exit']
+message=['Instructions', 'Settings', '1: Tulip', '2: Sunflower', '3: Rose', 'Scoreboard', 'Exit']
 screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
 pygame.display.set_caption("Garden Guardian")  #change the title of my window
 #boxes for menu
@@ -96,7 +96,7 @@ def mainMenu():
     #pygame.draw.rect(screen, colors.get('purple'), Button_settings)
     Title = TITLE_FONT.render("Garden Guardian", 1, colors.get(txtcolor))
     screen.fill(colors.get(bgcolor))
-    screen.blit(Title, (WIDTH//2 - (Title.get_width()//2), 10))
+    screen.blit(Title, (WIDTH//2 - (Title.get_width()//2), HEIGHT//100))
     yMenu = HEIGHT//8
     
     for item in message:
@@ -134,34 +134,38 @@ def mainMenu():
                 if Button_Game3.collidepoint((mx, my)):
                     GameThree()
     
-def Instructions():
+def Instructions():#has been changed
     #rendering text objects
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     Title = TITLE_FONT.render("Instructions", 1, colors.get(txtcolor))
+    Luck = MENU_FONT.render("Good luck, ", 1, colors.get(txtcolor))
+    FloDepend = MENU_FONT.render("the safety of your neighbors’ flowers rests in your hands.", 1, colors.get(txtcolor))
 
-    #fills screen with white
+    #fills screen with background
     screen.fill(colors.get(bgcolor))
 
     #creating button options
 
     #Instructions
-    myFile = open("MorningGameDesign\PygameFiles\instructions.txt", "r")
+    myFile = open("MorningGameDesign\PygameFiles\GGInstructions.txt", "r")
     content = myFile.readlines()
 
     #var to controll change of line
     yinstructions = HEIGHT//4.7
     for line in content:
         Instruc = MENU_FONT.render(line[0:-1], 1, colors.get(txtcolor))
-        screen.blit(Instruc, (WIDTH//14, yinstructions))
+        screen.blit(Instruc, (WIDTH//2 - (Instruc.get_width()//2), yinstructions))
         pygame.display.update()
         #time delay
         yinstructions += HEIGHT//18
-
     myFile.close()
 
     #renderig fonts to the screen
-    screen.blit(Title, (WIDTH//2 - (Title.get_width()//2), 10))
+    screen.blit(Title, (WIDTH//2 - (Title.get_width()//2), HEIGHT//60))
+    screen.blit(Luck, (WIDTH//2 - (Luck.get_width()//2), yinstructions))
+    yinstructions+=HEIGHT//18
+    screen.blit(FloDepend, (WIDTH//2 - (FloDepend.get_width()//2), yinstructions))
 
     pygame.display.update()
     Instructions = True
@@ -203,7 +207,7 @@ def settings():
     pygame.draw.rect(screen, colors.get("purple"), Button_6)
     pygame.draw.rect(screen, colors.get("purple"), Button_7)
     pygame.draw.rect(screen, colors.get("purple"), Button_8)
-    screen.blit(title, (WIDTH//2-8*WIDTH//18,50))
+    screen.blit(title, (WIDTH//2-8*WIDTH//18, HEIGHT//12))
     screen.blit(text, (WIDTH//4-WIDTH//12, HEIGHT//4))
     screen.blit(text3, (2*WIDTH//4-WIDTH//12, HEIGHT//4))
     screen.blit(text4, (3*WIDTH//4-WIDTH//12, HEIGHT//4))
@@ -300,7 +304,7 @@ def exit():
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     title=TITLE_FONT.render('Bye', 1, colors.get(txtcolor))
     screen.fill(colors.get(bgcolor))
-    screen.blit(title, (WIDTH//2 - (title.get_width()//2), HEIGHT//2))
+    screen.blit(title, (WIDTH//2 - (title.get_width()//2), HEIGHT//2- (title.get_height()//2)))
     #screen.blit(title, (WIDTH//2, HEIGHT//2))
     pygame.display.update()
     pygame.time.delay(1000)
@@ -539,8 +543,4 @@ def scoreboard():
                 mx=mousePos[0]
                 my=mousePos[1]
 
-
 mainMenu()
-        
-
-            
