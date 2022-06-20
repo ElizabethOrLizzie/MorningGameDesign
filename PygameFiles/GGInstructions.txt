@@ -1,0 +1,10 @@
+Your neighbors are planning to go on a lovely vacation.
+But how will they rest without anyone to look after their precious flowers?
+They decide to bestow the title of garden guardian upon you.
+Protect your neighbors flowers from malicious weeds while they are away.
+
+Use the arrows to move
+Run into weeds to attack them
+Avoid running into flowers
+Hint: weeds look like this (display weed)
+Going to the leaderboard is necessary to save your score
