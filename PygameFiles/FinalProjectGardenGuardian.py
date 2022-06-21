@@ -13,18 +13,20 @@ clock = pygame.time.Clock #try to use clock instead of delays to make it better
 
 WIDTH=800#need to find width and height for new background
 HEIGHT=600
-colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(0,100,50),"yellow":(255,255,0),"purple":(229,204,255),"randt":(random.randint(0,255), random.randint(0,255), random.randint(0,255)),"randb":(random.randint(0,255), random.randint(0,255), random.randint(0,255))}
+colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(0,100,50),"yellow":(255,255,0),"purple":(229,204,255),"grass":(152,220,111),"randt":(random.randint(0,255), random.randint(0,255), random.randint(0,255)),"randb":(random.randint(0,255), random.randint(0,255), random.randint(0,255))}
 message=['Instructions', 'Settings', '1: Tulip', '2: Sunflower', '3: Rose', 'Scoreboard', 'Exit']
 screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
 pygame.display.set_caption("Garden Guardian")  #change the title of my window
 #boxes for menu
 #images for game
-bg=pygame.image.load('MorningGameDesign\PygameFiles\TreesGrassBackground.png')
+bg=pygame.image.load('MorningGameDesign\PygameFiles\Tree.png')#need to get rid of!!!
+tree=pygame.image.load('MorningGameDesign\PygameFiles\Tree.png')
 char = pygame.image.load('MorningGameDesign\PygameFiles\Shovel.png')
 char = pygame.transform.scale(char, (WIDTH//14, HEIGHT//14)) #scale images so won't be too big or small compared to rest of screen
 tulip = pygame.image.load('MorningGameDesign\PygameFiles\Tulip.png')
 sunflower = pygame.image.load('MorningGameDesign\PygameFiles\Sunflower.png')
 rose = pygame.image.load('MorningGameDesign\PygameFiles\Rose.png')
+weed = pygame.image.load('MorningGameDesign\PygameFiles\GardenWeed.png')
 # screen.blit(bg, (0,0))
 # pygame.display.update()
 # pygame.time.delay(5000)
@@ -46,18 +48,25 @@ scrLine5="5. 0    nobody    "+date.strftime("%m-%d-%Y")+ "\n"
 score = 0
 
 #GAME VARIABLES
+#fx = random.randint(0, WIDTH-tulip.get_width())
+#fy = random.randint(0, HEIGHT-tulip.get_height())
+#wx = random.randint(0, WIDTH-weed.get_width())
+#wy = random.randint(0, HEIGHT-weed.get_height())
+#
+treebox = pygame.Rect(WIDTH//2-tree.get_width(),HEIGHT//2-tree.get_height(), tree.get_width(), tree.get_height())
+speed=2
 #square variables game #will probably delete most of this
 hb=HEIGHT//14
 wb=WIDTH//14
 xb=WIDTH//7
-rad=25
+rad=WIDTH//15
 yb=HEIGHT//2
 #char game
 charx = xb
 chary = yb
-cx=WIDTH//2
-cy=HEIGHT//2
-speed=2
+charbox = pygame.Rect(charx,chary,char.get_width(), tree.get_height())
+cx=2*WIDTH//15
+cy=2*HEIGHT//6
 ibox = rad*math.sqrt(2)
 xig = cx-(ibox/2)
 yig = cy-(ibox/2)
@@ -181,7 +190,7 @@ def settings():
     global txtcolor, bgcolor, screen, WIDTH, HEIGHT, colors, name
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
-    colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(0,100,50),"yellow":(255,255,50),"purple":(229,204,255),"randt":(random.randint(0,255), random.randint(0,255), random.randint(0,255)),"randb":(random.randint(0,255), random.randint(0,255), random.randint(0,255))}
+    colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(0,100,50),"yellow":(255,255,50),"purple":(229,204,255),"grass":(152,220,111),"randt":(random.randint(0,255), random.randint(0,255), random.randint(0,255)),"randb":(random.randint(0,255), random.randint(0,255), random.randint(0,255))}
     title=TITLE_FONT.render('Settings', 1, colors.get(txtcolor))
     text=MENU_FONT.render('Clr 1', 1, colors.get("yellow"))
     text3=MENU_FONT.render('Clr 2', 1, colors.get("pink"))
@@ -310,110 +319,27 @@ def exit():
     pygame.time.delay(1000)
     pygame.quit()
     sys.exit()
-
+def Game():
+    print("hi")
 def GameOne():
-    global score, hb, wb, xb, rad, yb, charx, chary, cx, cy, speed, ibox, xig, yig, char, bg, mx, my, insSquare, txtcolor, bgcolor
+    global score, charx, chary, speed, char, bg, mx, my#fx, fy, wx, wy
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     title=TITLE_FONT.render('Game Level 1', 1, colors.get(txtcolor))
     screen.fill(colors.get(bgcolor))
-    rad=25
-    screen.blit(title, (275,50))
-    pygame.time.delay(1000)
+    screen.blit(title, (WIDTH//2-title.get_width()//2,HEIGHT//2-title.get_height()//2))
     pygame.display.update()
+    pygame.time.delay(1000)
     score=0
     Game=True
     while Game:
-        pygame.draw.rect(screen, colors.get("white"), mountainSquare)
-        screen.blit(bg, (0,0))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                mainMenu()
-                print("you quit")
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mousePos = pygame.mouse.get_pos()
-                # print(mousePos)
-        keys = pygame.key.get_pressed() #allow us to see what key was pressed
-
-        #square movement
-        if keys[pygame.K_d] and square.x < WIDTH-wb:
-            square.x += speed
-            charx += speed
-        if keys[pygame.K_a] and square.x > 0:
-            square.x -= speed
-            charx -= speed
-        if keys[pygame.K_s] and square.y < HEIGHT-hb:
-            square.y += speed
-            chary += speed
-        if keys[pygame.K_w] and square.y > 0:
-            square.y -= speed
-            chary -= speed
-
-        #circle and inscribed square movement
-        #circle square collide
-        if square.colliderect(insSquare): 
-            print("BOOM")
-            score += 5
-            cx = random.randint(rad, WIDTH-rad)
-            cy = random.randint(rad, HEIGHT-rad)
-            if rad < WIDTH//2:
-                rad += 5
-            else:
-                endtext = TITLE_FONT.render("Game Over", 1, colors.get(txtcolor))
-                screen.fill(colors.get(bgcolor))
-                screen.blit(endtext, (275, 100))
-                leavegametext = MENU_FONT.render("Press x to return to the main menu", 1, colors.get(txtcolor))
-                screen.blit(leavegametext, (275, 300))
-                pygame.display.update()
-                Game = False
-            ibox = rad*math.sqrt(2)
-            xig = cx-(ibox/2)
-            yig = cy-(ibox/2)
-            insSquare=pygame.Rect(xig,yig,ibox,ibox)
-        
-        #mountain collide square
-        if square.colliderect(mountainSquare):
-            square.x = 10
-            square.y = 10
-            charx = 10
-            chary = 10
-        
-        #mountain collide circle
-        if insSquare.colliderect(mountainSquare):
-            cx = rad + 10
-            cy = rad + 10
-            ibox = rad*math.sqrt(2)
-            xig = cx-(ibox/2)
-            yig = cy-(ibox/2)
-            insSquare=pygame.Rect(xig,yig,ibox,ibox)
-
-        #rect(surface, color, object)
-        pygame.draw.rect(screen, colors.get("blue"), square)
-        pygame.draw.rect(screen, colors.get("blue"), insSquare)
-        screen.blit(char, (charx, chary))
-
-        #circle(surface, color, center, radius)
-        pygame.draw.circle(screen, colors.get("pink"), (cx, cy), rad)
-        
+        #pygame.draw.rect(screen, colors.get("white"), mountainSquare)
+        screen.fill(colors.get("grass"))
+        screen.blit(tree, (WIDTH//2-tree.get_width(),HEIGHT//2-tree.get_height()))
+        #screen.blit(tulip, (fx,fy))
+        #screen.blit(weed, (wx,wy))
+        screen.blit(char, (charx,chary))
         pygame.display.update()
-        pygame.time.delay(5)
-#game one done
-def GameTwo():
-    global score, hb, wb, xb, rad, yb, charx, chary, cx, cy, speed, ibox, xig, yig, char, bg, mx, my, insSquare, txtcolor, bgcolor
-    TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
-    MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
-    title=TITLE_FONT.render('Game Level 2', 1, colors.get(txtcolor))
-    screen.fill(colors.get(bgcolor))
-    rad = 25
-    screen.blit(title, (275,50))
-    pygame.display.update()
-    pygame.time.delay(1000)
-    score=0
-    Game=True
-    while Game:
-        pygame.draw.rect(screen, colors.get("white"), mountainSquare)
-        screen.blit(bg, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -423,67 +349,278 @@ def GameTwo():
                 mousePos = pygame.mouse.get_pos()
                 # print(mousePos)
         keys = pygame.key.get_pressed() 
-        if keys[pygame.K_RIGHT] and cx < WIDTH-rad:
-            cx += speed
-            insSquare.x += speed
-        if keys[pygame.K_LEFT] and cx > 0+rad:
-            cx -= speed
-            insSquare.x -= speed
-        if keys[pygame.K_DOWN] and cy < HEIGHT-rad:
-            cy += speed
-            insSquare.y += speed
-        if keys[pygame.K_UP] and cy > 0+rad:
-            cy -= speed
-            insSquare.y -= speed
+        if keys[pygame.K_RIGHT] and charx < WIDTH-char.get_width():
+            charx += speed
+            if treebox.colliderect(charbox):
+                charx-=speed
+        if keys[pygame.K_LEFT] and charx > 0:
+            charx -= speed
+            if treebox.colliderect(charbox):
+                charx+=speed
+            #insSquare.x -= speed
+        if keys[pygame.K_DOWN] and chary < HEIGHT-char.get_height():
+            chary += speed
+            if treebox.colliderect(charbox):
+                chary-=speed
+            #insSquare.y += speed
+        if keys[pygame.K_UP] and chary > 0:
+            chary -= speed
+            if treebox.colliderect(charbox):
+                chary+=speed
+            #insSquare.y -= speed
+        # if pygame.sprite.spritecollide(tulip, char): 
+        #     print("BOOM")
+        #     score -= 5
+        #     fx = random.randint(0, WIDTH-tulip.get_width())
+        #     fy = random.randint(0, HEIGHT-tulip.get_height())
+        # if pygame.sprite.spritecollide(weed, char):
+        #     print("BOOM")
+        #     score += 5
+        #     wx = random.randint(0, WIDTH-weed.get_width())
+        #     wy = random.randint(0, HEIGHT-weed.get_height())
+#     global score, hb, wb, xb, rad, yb, charx, chary, cx, cy, speed, ibox, xig, yig, char, bg, mx, my, insSquare, txtcolor, bgcolor
+#     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
+#     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
+#     title=TITLE_FONT.render('Game Level 1', 1, colors.get(txtcolor))
+#     screen.fill(colors.get(bgcolor))
+#     rad=25
+#     screen.blit(title, (275,50))
+#     pygame.time.delay(1000)
+#     pygame.display.update()
+#     score=0
+#     Game=True
+#     while Game:
+#         pygame.draw.rect(screen, colors.get("white"), mountainSquare)
+#         screen.blit(bg, (0,0))
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 run = False
+#                 mainMenu()
+#                 print("you quit")
+#             if event.type == pygame.MOUSEBUTTONDOWN:
+#                 mousePos = pygame.mouse.get_pos()
+#                 # print(mousePos)
+#         keys = pygame.key.get_pressed() #allow us to see what key was pressed
 
-        if square.colliderect(insSquare): 
-            print("BOOM")
-            score += 5
-            cx = random.randint(rad, WIDTH-rad)
-            cy = random.randint(rad, HEIGHT-rad)
-            if rad < WIDTH//2:
-                rad += 5
-            else:
-                endtext = TITLE_FONT.render("Game Over", 1, colors.get(txtcolor))
-                screen.fill(colors.get(bgcolor))
-                screen.blit(endtext, (275, 100))
-                leavegametext = MENU_FONT.render("Press x to return to the main menu", 1, colors.get(txtcolor))
-                screen.blit(leavegametext, (275, 300))
-                pygame.display.update()
-                Game = False
-            ibox = rad*math.sqrt(2)
-            xig = cx-(ibox/2)
-            yig = cy-(ibox/2)
-            insSquare=pygame.Rect(xig,yig,ibox,ibox)
-        
-        #mountain collide square
-        if square.colliderect(mountainSquare):
-            square.x = 10
-            square.y = 10
-            charx = 10
-            chary = 10
-        
-        #mountain collide circle
-        if insSquare.colliderect(mountainSquare):
-            cx = rad + 10
-            cy = rad + 10
-            ibox = rad*math.sqrt(2)
-            xig = cx-(ibox/2)
-            yig = cy-(ibox/2)
-            insSquare=pygame.Rect(xig,yig,ibox,ibox)
+#         #square movement
+#         if keys[pygame.K_d] and square.x < WIDTH-wb:
+#             square.x += speed
+#             charx += speed
+#         if keys[pygame.K_a] and square.x > 0:
+#             square.x -= speed
+#             charx -= speed
+#         if keys[pygame.K_s] and square.y < HEIGHT-hb:
+#             square.y += speed
+#             chary += speed
+#         if keys[pygame.K_w] and square.y > 0:
+#             square.y -= speed
+#             chary -= speed
 
-        #rect(surface, color, object)
-        pygame.draw.rect(screen, colors.get("blue"), square)
-        pygame.draw.rect(screen, colors.get("blue"), insSquare)
-        screen.blit(char, (charx, chary))
-
-        #circle(surface, color, center, radius)
-        pygame.draw.circle(screen, colors.get("pink"), (cx, cy), rad)
+#         #circle and inscribed square movement
+#         #circle square collide
+#         if square.colliderect(insSquare): 
+#             print("BOOM")
+#             score += 5
+#             cx = random.randint(rad, WIDTH-rad)
+#             cy = random.randint(rad, HEIGHT-rad)
+#             if rad < WIDTH//2:
+#                 rad += 5
+#             else:
+#                 endtext = TITLE_FONT.render("Game Over", 1, colors.get(txtcolor))
+#                 screen.fill(colors.get(bgcolor))
+#                 screen.blit(endtext, (275, 100))
+#                 leavegametext = MENU_FONT.render("Press x to return to the main menu", 1, colors.get(txtcolor))
+#                 screen.blit(leavegametext, (275, 300))
+#                 pygame.display.update()
+#                 Game = False
+#             ibox = rad*math.sqrt(2)
+#             xig = cx-(ibox/2)
+#             yig = cy-(ibox/2)
+#             insSquare=pygame.Rect(xig,yig,ibox,ibox)
         
+#         #mountain collide square
+#         if square.colliderect(mountainSquare):
+#             square.x = 10
+#             square.y = 10
+#             charx = 10
+#             chary = 10
+        
+#         #mountain collide circle
+#         if insSquare.colliderect(mountainSquare):
+#             cx = rad + 10
+#             cy = rad + 10
+#             ibox = rad*math.sqrt(2)
+#             xig = cx-(ibox/2)
+#             yig = cy-(ibox/2)
+#             insSquare=pygame.Rect(xig,yig,ibox,ibox)
+
+#         #rect(surface, color, object)
+#         pygame.draw.rect(screen, colors.get("blue"), square)
+#         pygame.draw.rect(screen, colors.get("blue"), insSquare)
+#         screen.blit(char, (charx, chary))
+
+#         #circle(surface, color, center, radius)
+#         pygame.draw.circle(screen, colors.get("pink"), (cx, cy), rad)
+        
+#         pygame.display.update()
+#         pygame.time.delay(5)
+# #game one
+def GameTwo():
+    global score, charx, chary, speed, char, bg, mx, my#fx, fy, wx, wy
+    TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
+    MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
+    title=TITLE_FONT.render('Game Level 2', 1, colors.get(txtcolor))
+    screen.fill(colors.get(bgcolor))
+    screen.blit(title, (WIDTH//2-title.get_width()//2,HEIGHT//2-title.get_height()//2))
+    pygame.display.update()
+    pygame.time.delay(1000)
+    score=0
+    Game=True
+    while Game:
+        #pygame.draw.rect(screen, colors.get("white"), mountainSquare)
+        screen.fill(colors.get("grass"))
+        screen.blit(tree, (WIDTH//2-tree.get_width(),HEIGHT//2-tree.get_height()))
+        #screen.blit(tulip, (fx,fy))
+        #screen.blit(weed, (wx,wy))
+        screen.blit(char, (charx,chary))
         pygame.display.update()
-        pygame.time.delay(5)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                mainMenu()
+                print("you quit")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousePos = pygame.mouse.get_pos()
+                # print(mousePos)
+        keys = pygame.key.get_pressed() 
+        if keys[pygame.K_RIGHT] and charx < WIDTH-char.get_width():
+            charx += speed
+            if treebox.colliderect(charbox):
+                charx-=speed
+            #insSquare.x += speed
+        if keys[pygame.K_LEFT] and charx > 0:
+            charx -= speed
+            if treebox.colliderect(charbox):
+                charx+=speed
+            #insSquare.x -= speed
+        if keys[pygame.K_DOWN] and chary < HEIGHT-char.get_height():
+            chary += speed
+            if treebox.colliderect(charbox):
+                chary-=speed
+            #insSquare.y += speed
+        if keys[pygame.K_UP] and chary > 0:
+            chary -= speed
+            if treebox.colliderect(charbox):
+                chary+=speed
+            #insSquare.y -= speed
+        # if pygame.sprite.spritecollide(tulip, char): 
+        #     print("BOOM")
+        #     score -= 5
+        #     fx = random.randint(0, WIDTH-tulip.get_width())
+        #     fy = random.randint(0, HEIGHT-tulip.get_height())
+        # if pygame.sprite.spritecollide(weed, char):
+        #     print("BOOM")
+        #     score += 5
+        #     wx = random.randint(0, WIDTH-weed.get_width())
+        #     wy = random.randint(0, HEIGHT-weed.get_height())
+            #if rad < WIDTH//2:
+        #         rad += 5
+        #     else:
+        #         endtext = TITLE_FONT.render("Game Over", 1, colors.get(txtcolor))
+        #         screen.fill(colors.get(bgcolor))
+        #         screen.blit(endtext, (275, 100))
+        #         leavegametext = MENU_FONT.render("Press x to return to the main menu", 1, colors.get(txtcolor))
+        #         screen.blit(leavegametext, (275, 300))
+        #         pygame.display.update()
+        #         Game = False
+        #     ibox = rad*math.sqrt(2)
+        #     xig = cx-(ibox/2)
+        #     yig = cy-(ibox/2)
+        #     insSquare=pygame.Rect(xig,yig,ibox,ibox)
+        
+        # #mountain collide square
+        # if square.colliderect(mountainSquare):
+        #     square.x = 10
+        #     square.y = 10
+        #     charx = 10
+        #     chary = 10
+        
+        # #mountain collide circle
+        # if insSquare.colliderect(mountainSquare):
+        #     cx = rad + 10
+        #     cy = rad + 10
+        #     ibox = rad*math.sqrt(2)
+        #     xig = cx-(ibox/2)
+        #     yig = cy-(ibox/2)
+        #     insSquare=pygame.Rect(xig,yig,ibox,ibox)
+
+        # #rect(surface, color, object)
+        # pygame.draw.rect(screen, colors.get("blue"), square)
+        # pygame.draw.rect(screen, colors.get("blue"), insSquare)
+        # screen.blit(char, (charx, chary))
+
+        # #circle(surface, color, center, radius)
+        # pygame.draw.circle(screen, colors.get("pink"), (cx, cy), rad)
+        
+        # pygame.display.update()
+        # pygame.time.delay(5)
 def GameThree():
-    print("something")
+    global score, charx, chary, speed, char, bg, mx, my#, fx, fy, wx, wy
+    TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
+    MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
+    title=TITLE_FONT.render('Game Level 3', 1, colors.get(txtcolor))
+    screen.fill(colors.get(bgcolor))
+    screen.blit(title, (WIDTH//2-title.get_width()//2,HEIGHT//2-title.get_height()//2))
+    pygame.display.update()
+    pygame.time.delay(1000)
+    score=0
+    Game=True
+    while Game:
+        #pygame.draw.rect(screen, colors.get("white"), mountainSquare)
+        screen.fill(colors.get("grass"))
+        screen.blit(tree, (WIDTH//2-tree.get_width(),HEIGHT//2-tree.get_height()))
+        # screen.blit(tulip, (fx,fy))
+        # screen.blit(weed, (wx,wy))
+        screen.blit(char, (charx,chary))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                mainMenu()
+                print("you quit")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousePos = pygame.mouse.get_pos()
+                # print(mousePos)
+        keys = pygame.key.get_pressed() 
+        if keys[pygame.K_RIGHT] and charx < WIDTH-char.get_width():
+            charx += speed
+            if treebox.colliderect(charbox):
+                charx-=speed
+        if keys[pygame.K_LEFT] and charx > 0:
+            charx -= speed
+            if treebox.colliderect(charbox):
+                charx+=speed
+            #insSquare.x -= speed
+        if keys[pygame.K_DOWN] and chary < HEIGHT-char.get_height():
+            chary += speed
+            if treebox.colliderect(charbox):
+                chary-=speed
+            #insSquare.y += speed
+        if keys[pygame.K_UP] and chary > 0:
+            chary -= speed
+            if treebox.colliderect(charbox):
+                chary+=speed
+            #insSquare.y -= speed
+        # if pygame.sprite.spritecollide(tulip, char): 
+        #     print("BOOM")
+        #     score -= 5
+        #     fx = random.randint(0, WIDTH-tulip.get_width())
+        #     fy = random.randint(0, HEIGHT-tulip.get_height())
+        # if pygame.sprite.spritecollide(weed, char):
+        #     print("BOOM")
+        #     score += 5
+        #     wx = random.randint(0, WIDTH-weed.get_width())
+        #     wy = random.randint(0, HEIGHT-weed.get_height())
 def scoreboard():
     global score, name, txtcolor, bgcolor, high, two, three, four, five, scrLine, scrLine2, scrLine3, scrLine4, scrLine5
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
