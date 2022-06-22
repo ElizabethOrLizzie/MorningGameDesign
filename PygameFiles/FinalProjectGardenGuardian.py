@@ -321,13 +321,20 @@ def exit():
     pygame.quit()
     sys.exit()
 def GameOne():
-    global score, charx, chary, speed, char, mx, my, treebox, treelist, title, flower, treesnum, ytree, xtree, a, t#, fx, fy, wx, wy
+    global score, charx, chary, speed, char, mx, my, treebox, treelist, title, flower, treesnum, ytree, xtree, a, t, flowerlist, weedlist#, fx, fy, wx, wy
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     title=TITLE_FONT.render('Game Level 1: Tulips', 1, colors.get(txtcolor))
     flower = tulip
     tree1 = tree
     treelist = [tree1]
+    tulip1 = tulip
+    tulip2 = tulip
+    flowerlist = [tulip1, tulip2]
+    weed1 = weed
+    weed2 = weed
+    weed3 = weed
+    weedlist = [weed1, weed2, weed3]
     treesnum=0
     a = 1
     t = 6000
@@ -431,15 +438,24 @@ def GameOne():
 #         pygame.time.delay(5)
 # #game one
 def GameTwo():
-    global score, charx, chary, speed, char, mx, my, treebox, treelist, title, flower, treesnum, ytree, xtree, a, t#, fx, fy, wx, wy
+    global score, charx, chary, speed, char, mx, my, treebox, treelist, title, flower, treesnum, ytree, xtree, a, t, flowerlist, weedlist#, fx, fy, wx, wy
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     title=TITLE_FONT.render('Game Level 2: Sunflowers', 1, colors.get(txtcolor))
     flower = sunflower
     tree1 = tree
     tree2 = tree
-    tree3 = tree
-    treelist = [tree1, tree2, tree3]
+    treelist = [tree1, tree2]
+    sunflower1 = sunflower
+    sunflower2 = sunflower
+    sunflower3 = sunflower
+    sunflower4 = sunflower
+    flowerlist = [sunflower1, sunflower2, sunflower3, sunflower4]
+    weed1 = weed
+    weed2 = weed
+    weed3 = weed
+    weedlist = [weed1, weed2, weed3]
+
     a = 3
     t = 4000
     game()
@@ -496,7 +512,7 @@ def GameTwo():
         # pygame.display.update()
         # pygame.time.delay(5)
 def GameThree():
-    global score, charx, chary, speed, char, mx, my, treebox, treelist, title, flower, treesnum, ytree, xtree, a, t#, fx, fy, wx, wy
+    global score, charx, chary, speed, char, mx, my, treebox, treelist, title, flower, treesnum, ytree, xtree, a, t, flowerlist, weedlist#, fx, fy, wx, wy
     TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//18)
     MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
     title=TITLE_FONT.render('Game Level 3: Roses', 1, colors.get(txtcolor))
@@ -504,9 +520,19 @@ def GameThree():
     tree1 = tree
     tree2 = tree
     tree3 = tree
-    tree4 = tree
-    tree5 = tree
-    treelist = [tree1, tree2, tree3, tree4, tree5]
+    treelist = [tree1, tree2, tree3]
+    rose1 = rose
+    rose2 = rose
+    rose3 = rose
+    rose4 = rose
+    rose5 = rose
+    rose6 = rose
+    flowerlist = [rose1, rose2, rose3, rose4, rose5, rose6]
+    weed1 = weed
+    weed2 = weed
+    weed3 = weed
+    weed4 = weed
+    weedlist = [weed1, weed2, weed3, weed4]
     a = 5
     t = 1000
     game()
@@ -531,11 +557,11 @@ def game():
         pygame.draw.rect(screen, colors.get(bgcolor), charbox)
         screen.fill(colors.get("grass"))
         if flower == rose:
-            ytree = HEIGHT//6-tree.get_height()//2
-            xtree = WIDTH//6-tree.get_height()//2
-        if flower == sunflower:
             ytree = HEIGHT//4-tree.get_height()//2
             xtree = WIDTH//4-tree.get_height()//2
+        if flower == sunflower:
+            ytree = HEIGHT//3-tree.get_height()//2
+            xtree = WIDTH//3-tree.get_height()//2
         if flower == tulip:
             ytree = HEIGHT//2-tree.get_height()//2
             xtree = WIDTH//2-tree.get_width()//2
@@ -556,12 +582,21 @@ def game():
             #pygame.time.delay(50)
             ytree += ytree
             xtree += xtree
-        flowerbox = (fx, fy, flower.get_width(), flower.get_height())
-        pygame.draw.rect(screen, colors.get("grass"), flowerbox)
-        screen.blit(flower, (fx,fy))
-        weedbox = (wx, wy, weed.get_width(), weed.get_height())
-        pygame.draw.rect(screen, colors.get("grass"), weedbox)
-        screen.blit(weed, (wx,wy))
+        f=0
+        for flowers in flowerlist:
+            if f == 0:
+                fx = random.randint(0, WIDTH-flower.get_width())
+                fy = random.randint(0, HEIGHT-flower.get_height())
+            flowerbox = (fx, fy, flower.get_width(), flower.get_height())
+            pygame.draw.rect(screen, colors.get("grass"), flowerbox)
+            screen.blit(flowers, (fx,fy))
+        f =1
+        for weeds in weedlist:
+            weedbox = (wx, wy, weed.get_width(), weed.get_height())
+            pygame.draw.rect(screen, colors.get("grass"), weedbox)
+            screen.blit(weeds, (wx,wy))
+            # wx = random.randint(0, WIDTH-weed.get_width())
+            # wy = random.randint(0, HEIGHT-weed.get_height())
         screen.blit(char, (charx,chary))
         pygame.display.update()
         current_time=pygame.time.get_ticks()
