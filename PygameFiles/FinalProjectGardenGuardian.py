@@ -551,6 +551,21 @@ def game():
     score=0
     old_time = pygame.time.get_ticks()
     Game=True
+    def reset_screen():
+        global fx, fy, wx, wy, flowerbox, weedbox
+        for flowers in flowerlist:
+            fx = random.randint(0, WIDTH-flower.get_width())
+            fy = random.randint(0, HEIGHT-flower.get_height())
+            flowerbox = (fx, fy, flower.get_width(), flower.get_height())
+            pygame.draw.rect(screen, colors.get("grass"), flowerbox)
+            screen.blit(flowers, (fx,fy))
+        for weeds in weedlist:
+            weedbox = (wx, wy, weed.get_width(), weed.get_height())
+            pygame.draw.rect(screen, colors.get("grass"), weedbox)
+            screen.blit(weeds, (wx,wy))
+            wx = random.randint(0, WIDTH-weed.get_width())
+            wy = random.randint(0, HEIGHT-weed.get_height())
+    reset_screen()
     while Game:
         charbox = pygame.Rect(charx,chary,char.get_width(), char.get_height())
         #pygame.draw.rect(screen, colors.get("white"), mountainSquare)
@@ -582,21 +597,18 @@ def game():
             #pygame.time.delay(50)
             ytree += ytree
             xtree += xtree
-        f=0
         for flowers in flowerlist:
-            if f == 0:
-                fx = random.randint(0, WIDTH-flower.get_width())
-                fy = random.randint(0, HEIGHT-flower.get_height())
+            fx = random.randint(0, WIDTH-flower.get_width())
+            fy = random.randint(0, HEIGHT-flower.get_height())
             flowerbox = (fx, fy, flower.get_width(), flower.get_height())
             pygame.draw.rect(screen, colors.get("grass"), flowerbox)
             screen.blit(flowers, (fx,fy))
-        f =1
         for weeds in weedlist:
             weedbox = (wx, wy, weed.get_width(), weed.get_height())
             pygame.draw.rect(screen, colors.get("grass"), weedbox)
             screen.blit(weeds, (wx,wy))
-            # wx = random.randint(0, WIDTH-weed.get_width())
-            # wy = random.randint(0, HEIGHT-weed.get_height())
+            wx = random.randint(0, WIDTH-weed.get_width())
+            wy = random.randint(0, HEIGHT-weed.get_height())
         screen.blit(char, (charx,chary))
         pygame.display.update()
         current_time=pygame.time.get_ticks()
