@@ -6,5 +6,5 @@ Protect your neighbors flowers from malicious weeds while they are away.
 Use the arrows to move
 Run into weeds to attack them
 Avoid running into flowers
-Going to close to the trees will make you go back to the top left
+Going too close to the trees will make you go to the top left
 Going to the leaderboard is necessary to save your score
