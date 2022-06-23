@@ -17,7 +17,7 @@ grass = colors.get("grass")
 line = colors.get("white")
 screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
 pygame.display.set_caption("Garden Guardian")  #change the title of my window
-
+MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//35)
 #images for game
 tree=pygame.image.load('MorningGameDesign\PygameFiles\Tree.png')
 tree = pygame.transform.scale(tree, (WIDTH//10, HEIGHT//7))
@@ -25,6 +25,9 @@ trees = [tree, tree, tree, tree, tree, tree, tree]
 numbtrees = len(trees)
 char = pygame.image.load('MorningGameDesign\PygameFiles\ShovelCropped.png')
 char = pygame.transform.scale(char, (WIDTH//30, HEIGHT//14)) #scale images so won't be too big or small compared to rest of screen
+charbox = char.get_rect()
+charbox.x=0
+charbox.y=0
 tulip = pygame.image.load('MorningGameDesign\PygameFiles\Lavendar.png')
 tulip = pygame.transform.scale(tulip, (WIDTH//30, HEIGHT//12))
 tulips = [tulip, tulip, tulip, tulip, tulip, tulip]
@@ -38,49 +41,28 @@ weed = pygame.image.load('MorningGameDesign\PygameFiles\GardenWeed.png')
 weed = pygame.transform.scale(weed, (WIDTH//35, HEIGHT//12))
 weeds = [weed, weed, weed, weed, weed, weed, weed, weed, weed, weed]
 #character location
-charx = 0
-chary = 0
+score = 0
 #char speed
-speed = 2
+speed = 5
+clock = pygame.time.Clock()
 screen.fill(grass)
 images = []
 treeboxes  =[]
 def imagelocation(images):
     global old_time
     imgInf = []
-    treeboxes = []
-    # plants = pygame.sprite.Group()
     counter = 0
     for item in images:
-        # overlap = True
-        # while overlap:
         imgRect = item.get_rect()
-        #for i in range(1,4):
-        # if images == trees:
-        #     imgRect.x = i*WIDTH//4
-        #     imgRect.y = i*HEIGHT//6
-        # else:
         imgRect.x = random.randint(0, WIDTH-item.get_width())
         imgRect.y = random.randint(0, HEIGHT-item.get_height())
         tile = (item, imgRect)
-        treeboxes.append(imgRect)
-        # plants.add(imgRect)
         imgInf.append(tile)
         pygame.draw.rect(screen, grass, imgRect)
         screen.blit(imgInf[counter][0], imgInf[counter][1])
-        # if not pygame.sprite.spritecollideany(imgRect, plants):
-        #     overlap = False
+       
         counter+=1
-        #for i in range(0,3):
-            # imgRect.x = i*WIDTH//4
-            # imgRect.y = i*HEIGHT//3
-            # imgRect.x = random.randint(0, WIDTH-item.get_width())
-            # imgRect.y = random.randint(0, HEIGHT-item.get_height())
-            # tile = (item, imgRect)
-            # imgInf.append(tile)
-            # pygame.draw.rect(screen, line, imgRect)
-            # screen.blit(imgInf[counter][0], imgInf[counter][1])
-            # counter+=1
+        
     old_time = pygame.time.get_ticks()
 
     return imgInf
@@ -91,8 +73,36 @@ def draw_grid():
         pygame.draw.line(screen,lineClr,(0,HEIGHT//10*x),(WIDTH,HEIGHT//10*x),2)  #Hztal line
         pygame.draw.line(screen,lineClr,(WIDTH//10*x, 0),(WIDTH//10*x,HEIGHT),2)  #Vert line
     pygame.time.delay(100)
+def draw_image(images):
+    counter = 0
+    for item in images:
+        screen.blit(images[counter][0], images[counter][1])
+        counter+=1
+def collidecheck():
+    global charbox, score
+    counter = 0
+    for item in treeslist:
+        if charbox.colliderect(treeslist[counter][1]):
+            charbox.x=0
+            charbox.y=0
+        counter+=1
+    counter = 0
+    for item in weedslist:
+        if charbox.colliderect(weedslist[counter][1]):
+            print("hit")
+            score += 5
+            del weedslist[counter]
+        counter+=1
+    counter=0
+    for item in tulipslist:
+        if charbox.colliderect(tulipslist[counter][1]):
+            print("hit")
+            score -= 5
+            del tulipslist[counter]
+        counter+=1
 draw_grid()
 treeslist=[]
+images = []
 treeslist=imagelocation(trees)
 
 tulipslist = []
@@ -101,33 +111,33 @@ weedlist = []
 weedslist = imagelocation(weeds)
 game = True
 while game:
+    clock.tick(60)
     screen.fill(grass)
-    # current_time = pygame.time.get_ticks()
-    # if current_time-old_time > 10000:
-    #     tulipslist = imagelocation(tulips)
-    #     weedslist = imagelocation(weeds)
-    counter = 0
-    for item in treeslist:
-        print(item)
-        # screen.blit(item[counter][0], item[counter][1])
-        pygame.display.update()
-    charbox = pygame.Rect(charx,chary,char.get_width(), char.get_height())
-    pygame.draw.rect(screen, grass, charbox)
-    screen.blit(char, (charx,chary))
+    text=MENU_FONT.render("Score = "+str(score), 1, colors.get("blue"))
+    screen.blit(text, (WIDTH-text.get_width(), 0))
+    current_time = pygame.time.get_ticks()
+    if current_time-old_time > 5000:
+        tulipslist = imagelocation(tulips)
+        weedslist = imagelocation(weeds)
+    draw_image(treeslist)
+    draw_image(tulipslist)
+    draw_image(weedslist)
+    screen.blit(char, charbox)
     pygame.display.update()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT] and charx < WIDTH-char.get_width():
-            charx += speed
-        if keys[pygame.K_LEFT] and charx > 0:
-            charx -= speed
-        if keys[pygame.K_DOWN] and chary < HEIGHT-char.get_height():
-            chary += speed
-        if keys[pygame.K_UP] and chary > 0:
-            chary -= speed
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_RIGHT] and charbox.x < WIDTH-char.get_width():
+        charbox.x += speed
+    if keys[pygame.K_LEFT] and charbox.x > 0:
+        charbox.x -= speed
+    if keys[pygame.K_DOWN] and charbox.y < HEIGHT-char.get_height():
+        charbox.y += speed
+    if keys[pygame.K_UP] and charbox.y > 0:
+        charbox.y -= speed
+    collidecheck()
 # counter = 0
 # for boxes in treeboxes:
 #     print(tree)
@@ -136,11 +146,3 @@ while game:
 #     # rect = tree[counter][1]
 #     # pygame.draw.rect(screen, grass, rect, 1)
 #     counter+=1
-
-pygame.display.update()
-Game=True
-while Game:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
